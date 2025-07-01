@@ -5,16 +5,28 @@
 // 2 asynchronous
 //  file read ---> single thread --> Even loop --> thread pool ---> task completing
 
-const fs = require("fs");
-console.log("task1 ");
-// writeFileSync and readFileSync
-const text = "learning file system"
+//  read file asynchronous
+const fs = require('fs');
+let text = "loading text......learning node js"
+console.log("task 1");
+const data = fs.readFile('./hello.txt', { encoding: "utf8" }, (error, data) => {
+    if (error) {
+        console.log("something went wrong !", error);
+    }
+    text = data;
+    console.log(data);
+}
+);
+console.log(text);
+console.log("task 3");
 
-fs.writeFileSync("./hello.txt", text);
+//  asynchronous write file
+const text2 = "hello write file in node js";
+fs.writeFile("./hello.txt", text, { encoding: "utf8" }, (err) => {
+    if (err) {
+        console.log("Something is error", err);
+        return;
+    }
+    console.log('File written successfully!');
 
-console.log("task2 ");
-
-const data = fs.readFileSync("./hello.txt", { encoding: "utf-8" });
-console.log("task3 ");
-console.log(data);
-console.log("task4");
+})
