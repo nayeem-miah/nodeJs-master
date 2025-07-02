@@ -83,8 +83,25 @@ const server = http.createServer((req, res) => {
             }, null, 2))
         });
     }
+    //  deleted success
+    else if (pathname === "/todo/delete-todo" && req.method === "DELETE") {
+        const title = url.searchParams.get("title");
 
+        const allTodos = fs.readFileSync(filepath, { encoding: "utf-8" });
+        const parseData = JSON.parse(allTodos); // JSON string → JavaScript array
 
+        const updatedTodos = parseData.filter((todo) => todo.title !== title);
+
+        if (parseData.length === updatedTodos.length) {
+            res.statusCode = 404;
+            res.end(`todo "${title}" does not find`);
+            return;
+        }
+        fs.writeFileSync(filepath, JSON.stringify(updatedTodos, null, 2));
+
+        res.statusCode = 200;
+        res.end(`todo "${title}" deleted success`);
+    }
     else {
         res.end("route not found")
     }

@@ -6,48 +6,5 @@
   {
     "title": "learning express js ",
     "description": "hello express js . express js  is a node.js framework"
-  },
-  {
-    "title": "learning node js",
-    "description": "hello node js . node js is a runtime language in javascript"
-  },
-  {
-    "title": "learning java",
-    "description": "hello java",
-    "createAt": "7/2/2025, 10:48:22 AM"
-  },
-  {
-    "title": "learning java",
-    "description": "hello java",
-    "createAt": "7/2/2025, 10:48:23 AM"
-  },
-  {
-    "title": "learning java",
-    "description": "hello java",
-    "createAt": "7/2/2025, 10:48:23 AM"
-  },
-  {
-    "title": "learning java",
-    "description": "hello java",
-    "createAt": "7/2/2025, 10:48:23 AM"
-  },
-  {
-    "title": "learning java",
-    "description": "hello java",
-    "createAt": "7/2/2025, 10:48:23 AM"
-  },
-  {
-    "title": "learning java",
-    "description": "hello java",
-    "createAt": "7/2/2025, 10:48:24 AM"
-  },
-  {
-    "title": "java",
-    "description": "java is the most popular programming language",
-    "createAt": "7/2/2025, 11:42:58 AM"
-  },
-  {
-    "description": "java is the most popular programming language",
-    "createAt": "7/2/2025, 5:46:29 PM"
   }
 ]
