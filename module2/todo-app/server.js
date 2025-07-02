@@ -1,40 +1,55 @@
 const http = require('node:http');
+const path = require("path");
+const fs = require("fs");
 
-const data = [
-    {
-        title: "learning node js ",
-        description: "hello node js . node js is a runtime language in javascript",
-        date: new Date().toLocaleDateString()
-    },
-    {
-        title: "learning express js ",
-        description: "hello express js . express js  is a node.js framework",
-        date: new Date().toLocaleDateString()
-    },
-    {
-        title: "learning node js ",
-        description: "hello node js . node js is a runtime language in javascript",
-        date: new Date().toLocaleDateString()
-    },
-]
+const filepath = path.join(__dirname, "./db/todos.json");
+
 const server = http.createServer((req, res) => {
     // console.log(req.url, req.method);
-    if (req.url === "/todo/update-todos" && req.method === "PATCH") {
+    if (req.url === "/todo/update-todo" && req.method === "PATCH") {
         // console.log("data update success");
         res.end("data updated success")
 
-    } else if (req.url === "/todo/create-todos" && req.method === "POST") {
-        res.end("todo inserted success")
-    } else if (req.url === "/todo/getall" && req.method === "GET") {
+
+    }
+
+    // create a todo
+    else if (req.url === "/todo/create-todo" && req.method === "POST") {
+        let data = ""
+        req.on("data", (chunk) => {
+            data = data + chunk;
+        })
+
+        req.on("end", () => {
+            const { title, description } = JSON.parse(data)
+
+            const createAt = new Date().toLocaleString();
+            // console.log({ title, description, createAt });
+
+            const allTodos = fs.readFileSync(filepath, { encoding: "utf-8" });
+            const parseAllTodos = JSON.parse(allTodos);
+            parseAllTodos.push({ title, description, createAt });
+
+            fs.writeFileSync(filepath, JSON.stringify(parseAllTodos, null, 2), { encoding: "utf-8" })
+            // return json data
+            res.end(JSON.stringify({
+                title,
+                description,
+                createAt
+            }, null, 2))
+        });
+    }
+
+    //  get all todos
+    else if (req.url === "/todo/getall" && req.method === "GET") {
+        const data = fs.readFileSync(filepath, { encoding: "utf-8" });
         res.writeHead(200, {
             "content-type": "application/json",
-            // "email": "gh@gmail.com",
+
         })
-        // res.setHeader("content-type", "text/plain");
-        // res.setHeader("gmail", "h4@gmail.com");
-        // res.statusCode = 201;
-        res.end(`<h2>hello html</h2>`);
-        // res.end(JSON.stringify(data));
+        res.end(
+            data
+        );
     }
     else {
         res.end("route not found")
