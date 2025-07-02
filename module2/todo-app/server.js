@@ -6,7 +6,9 @@ const filepath = path.join(__dirname, "./db/todos.json");
 
 const server = http.createServer((req, res) => {
     // console.log(req.url, req.method);
-    if (req.url === "/todo/update-todo" && req.method === "PATCH") {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const pathname = url.pathname;
+    if (pathname === "/todo/update-todo" && req.method === "PATCH") {
         // console.log("data update success");
         res.end("data updated success")
 
@@ -14,7 +16,7 @@ const server = http.createServer((req, res) => {
     }
 
     // create a todo
-    else if (req.url === "/todo/create-todo" && req.method === "POST") {
+    else if (pathname === "/todo/create-todo" && req.method === "POST") {
         let data = ""
         req.on("data", (chunk) => {
             data = data + chunk;
@@ -39,17 +41,25 @@ const server = http.createServer((req, res) => {
             }, null, 2))
         });
     }
+    // get a todo
+    else if (pathname === "/todo" && req.method === "GET") {
+        const title = url.searchParams.get("title");
+        const data = fs.readFileSync(filepath, { encoding: "utf-8" })
+        const parseData = JSON.parse(data);
+        const filterData = parseData.find(da => da.title === title);
+        res.writeHead(200, {
+            "content-type": "application/json"
+        })
+        res.end(JSON.stringify(filterData))
+    }
 
     //  get all todos
-    else if (req.url === "/todo/getall" && req.method === "GET") {
+    else if (pathname === "/todo/getall" && req.method === "GET") {
         const data = fs.readFileSync(filepath, { encoding: "utf-8" });
         res.writeHead(200, {
-            "content-type": "application/json",
-
+            "content-type": "application/json"
         })
-        res.end(
-            data
-        );
+        res.end(data);
     }
     else {
         res.end("route not found")
