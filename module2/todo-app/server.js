@@ -8,15 +8,10 @@ const server = http.createServer((req, res) => {
     // console.log(req.url, req.method);
     const url = new URL(req.url, `http://${req.headers.host}`);
     const pathname = url.pathname;
-    if (pathname === "/todo/update-todo" && req.method === "PATCH") {
-        // console.log("data update success");
-        res.end("data updated success")
 
-
-    }
 
     // create a todo
-    else if (pathname === "/todo/create-todo" && req.method === "POST") {
+    if (pathname === "/todo/create-todo" && req.method === "POST") {
         let data = ""
         req.on("data", (chunk) => {
             data = data + chunk;
@@ -61,6 +56,35 @@ const server = http.createServer((req, res) => {
         })
         res.end(data);
     }
+    // updated  a todo
+    else if (pathname === "/todo/update-todo" && req.method === "PATCH") {
+        const title = url.searchParams.get("title");
+
+        let data = ""
+        req.on("data", (chunk) => {
+            data = data + chunk;
+        })
+
+        req.on("end", () => {
+            const { description } = JSON.parse(data);
+
+            const allTodos = fs.readFileSync(filepath, { encoding: "utf-8" });
+            const parseAllTodos = JSON.parse(allTodos);
+            const todoIndex = parseAllTodos.findIndex((todo) => todo.title === title);
+            // console.log(parseAllTodos);
+            parseAllTodos[todoIndex].description = description;
+
+            fs.writeFileSync(filepath, JSON.stringify(parseAllTodos, null, 2), { encoding: "utf-8" })
+            // return json data
+            res.end(JSON.stringify({
+                title,
+                description,
+                createAt: parseAllTodos[todoIndex].createAt
+            }, null, 2))
+        });
+    }
+
+
     else {
         res.end("route not found")
     }
