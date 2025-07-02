@@ -1,0 +1,16 @@
+. npm init -y
+2.typescript install -------> npm i -D typescript
+3. install package ---------> npm i express
+4. tsconfig.json -----------> tsc --init    --> rootDir and outDir
+5. create folder and file structure
+6. using esm module file system
+
+
+
+/** basic file structure''
+ * server ---> server handling link --- starting, closing error handling of server. only related to server
+ * 
+ * app file --> routing , handler, middleware, route related error handling
+ * 
+ * app folder ----------> app business logic handling like create, read , update, delete
+ */
