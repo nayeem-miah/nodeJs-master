@@ -1,24 +1,25 @@
 import express, { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
+import { client } from "../../config/mongodb";
 
 const todosRouter = express.Router();
 const fileURLToPath = path.join(__dirname, "../../../db/todos.json");
+const db = client.db("todosDB").collection("todos");
 
 // get all todos 
-todosRouter.get('/all-todos', (req: Request, res: Response) => {
-    const data = fs.readFileSync(fileURLToPath, { encoding: "utf-8" });
-    res.json({
-        message: "todo router ",
-        data: data
-    })
+todosRouter.get('/all-todos', async (req: Request, res: Response) => {
+    const result = await db.find().toArray();
+    res.send(result)
 }
 );
 
 // create a todos
-todosRouter.post('/create-todos', (req: Request, res: Response) => {
-    // {title, description, (priority : hight , low , medium.), isCompleted : true/false}
-})
+todosRouter.post('/create-todos', async (req: Request, res: Response) => {
+    const todos = req.body;
+    const result = await db.insertOne(todos)
+    res.send(result)
+});
 
 
 todosRouter.get('/todos', (req: Request, res: Response) => {

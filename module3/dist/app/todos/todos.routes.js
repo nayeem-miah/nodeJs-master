@@ -15,20 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const mongodb_1 = require("../../config/mongodb");
 const todosRouter = express_1.default.Router();
 const fileURLToPath = path_1.default.join(__dirname, "../../../db/todos.json");
+const db = mongodb_1.client.db("todosDB").collection("todos");
 // get all todos 
-todosRouter.get('/all-todos', (req, res) => {
-    const data = fs_1.default.readFileSync(fileURLToPath, { encoding: "utf-8" });
-    res.json({
-        message: "todo router ",
-        data: data
-    });
-});
+todosRouter.get('/all-todos', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield db.find().toArray();
+    res.send(result);
+}));
 // create a todos
-todosRouter.post('/create-todos', (req, res) => {
-    // {title, description, (priority : hight , low , medium.), isCompleted : true/false}
-});
+todosRouter.post('/create-todos', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const todos = req.body;
+    const result = yield db.insertOne(todos);
+    res.send(result);
+}));
 todosRouter.get('/todos', (req, res) => {
     //  dynamic route --------> /todos/:title/:data
     const title = req.params; // /prisma---> { title: 'prisma' }
