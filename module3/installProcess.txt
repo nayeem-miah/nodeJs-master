@@ -4,6 +4,9 @@
 4. tsconfig.json -----------> tsc --init    --> rootDir and outDir
 5. create folder and file structure
 6. using esm module file system
+7. running all time file ts to js---> tsc -w
+8. server is running -------> npm i -g nodemon
+
 
 
 

@@ -2,8 +2,9 @@ import app from "./app"
 
 let server
 const port = 3000
+
 const bootstrap = async () => {
-    app.listen(port, () => {
+    server = app.listen(port, () => {
         console.log(`Example app listening on port http://localhost:${port}`)
     })
 }

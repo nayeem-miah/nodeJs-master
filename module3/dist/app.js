@@ -5,10 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
-const port = 3000;
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Hello World! ');
 });
-app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`);
+app.get('/todos', (req, res) => {
+    res.send('todo server is loading .........');
 });
+exports.default = app;
+/**
+ * server ---> server handling link --- starting, closing error handling of server. only related to server
+ *
+ * app file --> routing , handler, middleware, route related error handling
+ *
+ * app folder ----------> app business logic handling like create, read , update, delete
+ */ 
