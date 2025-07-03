@@ -26,11 +26,8 @@ todosRouter.get('/all-todos', (req, res) => {
     });
 });
 // create a todos
-todosRouter.post('/todos/create-todos', (req, res) => {
-    console.log("data is loading ..........");
-    const { title, description } = req.body;
-    console.log(title, description);
-    res.status(200).send({ title, description });
+todosRouter.post('/create-todos', (req, res) => {
+    // {title, description, (priority : hight , low , medium.), isCompleted : true/false}
 });
 todosRouter.get('/todos', (req, res) => {
     //  dynamic route --------> /todos/:title/:data

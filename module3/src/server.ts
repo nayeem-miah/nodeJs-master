@@ -3,9 +3,9 @@ import app from "./app"
 
 let server
 const port = 5000;
-// const uri = "mongodb+srv://todosApp:todosApp@cluster0.bomlehy.mongodb.net/todosDB?retryWrites=true&w=majority&appName=Cluster0";
+const uri = `mongodb+srv://${process.env.mongoUser}:${process.env.mongoPass}@cluster0.bomlehy.mongodb.net/todosDB?retryWrites=true&w=majority&appName=Cluster0`;
 
-const uri = "mongodb://localhost:27017/todosDB"
+// const uri = "mongodb://localhost:27017/todosDB"
 
 const client = new MongoClient(uri, {
     serverApi: {

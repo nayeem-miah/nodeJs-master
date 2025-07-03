@@ -16,11 +16,8 @@ todosRouter.get('/all-todos', (req: Request, res: Response) => {
 );
 
 // create a todos
-todosRouter.post('/todos/create-todos', (req: Request, res: Response) => {
-    console.log("data is loading ..........");
-    const { title, description } = req.body;
-    console.log(title, description);
-    res.status(200).send({ title, description })
+todosRouter.post('/create-todos', (req: Request, res: Response) => {
+    // {title, description, (priority : hight , low , medium.), isCompleted : true/false}
 })
 
 
