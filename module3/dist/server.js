@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 let server;
-const port = 3000;
+const port = 5000;
 const bootstrap = () => __awaiter(void 0, void 0, void 0, function* () {
     server = app_1.default.listen(port, () => {
         console.log(`Example app listening on port http://localhost:${port}`);
