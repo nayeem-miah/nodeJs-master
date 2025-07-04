@@ -8,7 +8,6 @@ app.use(express.json()); // JSON middleware
 // application routes
 app.use("/todos", todosRouter);
 
-
 export default app;
 
 /**

@@ -13,11 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
-const fs_1 = __importDefault(require("fs"));
 const mongodb_1 = require("../../config/mongodb");
+const mongodb_2 = require("mongodb");
 const todosRouter = express_1.default.Router();
-const fileURLToPath = path_1.default.join(__dirname, "../../../db/todos.json");
 const db = mongodb_1.client.db("todosDB").collection("todos");
 // get all todos 
 todosRouter.get('/all-todos', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,21 +28,32 @@ todosRouter.post('/create-todos', (req, res) => __awaiter(void 0, void 0, void 0
     const result = yield db.insertOne(todos);
     res.send(result);
 }));
-todosRouter.get('/todos', (req, res) => {
-    //  dynamic route --------> /todos/:title/:data
-    const title = req.params; // /prisma---> { title: 'prisma' }
-    // console.log(title);
-    // query ---> ///todos?title&description=prisma  ------->{ title: '', description: 'prisma' }
-    console.log(req.query);
-    const data = fs_1.default.readFileSync(fileURLToPath, { encoding: "utf-8" });
-    res.send(data);
-});
-//  updated todos
-todosRouter.patch("/update/:title", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("deleted success");
+todosRouter.get('/todo/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const query = { _id: new mongodb_2.ObjectId(id) };
+    const result = yield db.findOne(query);
+    res.json(result);
 }));
 //  updated todos
-todosRouter.delete("/deleted/:title", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send("deleted success");
+todosRouter.put("/update/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const { title, description, priority, isCompleted } = req.body;
+    const query = { _id: new mongodb_2.ObjectId(id) };
+    const result = yield db.updateOne(query, {
+        $set: {
+            title,
+            description,
+            priority,
+            isCompleted
+        }
+    }, { upsert: true });
+    res.send(result);
+}));
+//  updated todos
+todosRouter.delete("/deleted/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const filter = { _id: new mongodb_2.ObjectId(id) };
+    const result = yield db.deleteOne();
+    res.json(result);
 }));
 exports.default = todosRouter;

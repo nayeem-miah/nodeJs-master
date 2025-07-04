@@ -1,10 +1,8 @@
 import express, { Request, Response } from "express";
-import path from "path";
-import fs from "fs";
 import { client } from "../../config/mongodb";
+import { ObjectId } from "mongodb";
 
 const todosRouter = express.Router();
-const fileURLToPath = path.join(__dirname, "../../../db/todos.json");
 const db = client.db("todosDB").collection("todos");
 
 // get all todos 
@@ -22,24 +20,36 @@ todosRouter.post('/create-todos', async (req: Request, res: Response) => {
 });
 
 
-todosRouter.get('/todos', (req: Request, res: Response) => {
-    //  dynamic route --------> /todos/:title/:data
-
-    const title = req.params; // /prisma---> { title: 'prisma' }
-    // console.log(title);
-    // query ---> ///todos?title&description=prisma  ------->{ title: '', description: 'prisma' }
-    console.log(req.query);
-    const data = fs.readFileSync(fileURLToPath, { encoding: "utf-8" });
-    res.send(data)
+todosRouter.get('/todo/:id', async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await db.findOne(query)
+    res.json(result)
 });
 
 //  updated todos
-todosRouter.patch("/update/:title", async (req: Request, res: Response) => {
-    res.send("deleted success")
-})
+todosRouter.put("/update/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const { title, description, priority, isCompleted } = req.body;
+    const query = { _id: new ObjectId(id) };
+    const result = await db.updateOne(
+        query, {
+        $set: {
+            title,
+            description,
+            priority,
+            isCompleted
+        }
+    },
+        { upsert: true });
+    res.send(result)
+});
 //  updated todos
-todosRouter.delete("/deleted/:title", async (req: Request, res: Response) => {
-    res.send("deleted success")
+todosRouter.delete("/deleted/:id", async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const result = await db.deleteOne();
+    res.json(result)
 })
 
 export default todosRouter;
