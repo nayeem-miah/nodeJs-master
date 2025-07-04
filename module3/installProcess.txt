@@ -7,6 +7,20 @@
 7. running all time file ts to js---> tsc -w
 8. server is running -------> npm i -g nodemon
 
+    
+ // all route work done then this work-----------
+* not fount route  ----> app.use((req, res, next)=>{ res.send("route not found")})
+
+* global error handler -------> app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+    if (error) {
+        console.log(error);
+        res.status(400).json({
+            message: "something went wrong .....",
+            error: error
+        })
+    }
+})
+
 
 
 
