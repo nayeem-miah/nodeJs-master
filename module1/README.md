@@ -1,5 +1,4 @@
 
-````markdown
 # Node.js, CommonJS vs ESM, and File System (`fs`) Module
 
 This project explains key concepts in Node.js, including the difference between **CommonJS** and **ESM** modules, and how to use the **`fs` (File System)** module to work with files.
