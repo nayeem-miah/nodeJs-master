@@ -18,7 +18,7 @@
 
 
 //    and or using ---------------------------
-// db.person.find({age: {$ne: 18} , age : {$let: 30}}) // Error : duplicated identefire
+// db.person.find({age: {$ne: 18} , age : {$let: 30}}) // Error : duplicated identifier
 // db.person.find({ age: { $ne: 18, $lte: 30 } })  // write way
 
 
@@ -49,8 +49,19 @@
 
 
 
+// elements query operators -----------------
+// db.person.find({ age: { $exists: true } });
+// db.person.find({ age: { $exists: false } });
+// db.person.find({unknown : {$exists: true}})
+
+// db.person.find({
+//     gender: { $type: "string" }
+// });
+// db.person.find({age: {$type: "number"}});
 
 
+// $size: -Selects documents if the array field is a specified size.
+// db.services.find({facility : {$size: 4}}).project({facility: 1})
 
 
 
