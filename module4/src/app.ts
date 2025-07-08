@@ -68,9 +68,19 @@ app.get("/notes", async (req: Request, res: Response) => {
     })
 })
 
+// get a notes ----- /notes/:noteId
+app.get("/notes/:noteId", async (req: Request, res: Response) => {
 
-
-
+    // const note = await Note.find({ _id: req.params.noteId });
+    // const note = await Note.findOne({ _id: req.params.noteId }); // any document by filter
+    const note = await Note.findById(req.params.noteId); // query in mongodb objectId
+    console.log(note);
+    res.status(200).json({
+        success: true,
+        message: "data get success",
+        data: note
+    })
+})
 
 
 app.get("/", (req: Request, res: Response) => {
