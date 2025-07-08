@@ -147,6 +147,36 @@
 //     }
 // ])
 
+// -------------------------
+// db.productOrders.aggregate([
+//     {
+//         $lookup: {
+//             from: "test",
+//             localField: "userId",
+//             foreignField: "_id",
+//             as: "user"
+//         }
+//     }
+// ])
+// embed vs referencing
+
+
+
+
+
+//  indexing ---------------> text searchings
+// db.test.find({
+//     $text: { $search: "Virgil" }
+// })
+
+
+
+
+
+
+
+
+
 
 
 
