@@ -80,7 +80,23 @@ app.get("/notes/:noteId", async (req: Request, res: Response) => {
         message: "data get success",
         data: note
     })
-})
+});
+
+//  updated notes
+app.patch("/notes/:noteId", async (req: Request, res: Response) => {
+    const noteId = req.params.noteId;
+    const updateDoc = req.body
+    // const note = await Note.updateOne({_id: noteId}, updateDoc, { new: true })
+    // const note = await Note.findOneAndUpdate({ _id: noteId }, updateDoc, { new: true })
+    // best way
+    const note = await Note.findByIdAndUpdate(noteId, updateDoc, { new: true })
+    console.log(note);
+    res.status(200).json({
+        success: true,
+        message: "data updated success",
+        data: note
+    })
+});
 
 
 app.get("/", (req: Request, res: Response) => {
