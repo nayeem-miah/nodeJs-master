@@ -98,6 +98,19 @@ app.patch("/notes/:noteId", async (req: Request, res: Response) => {
     })
 });
 
+//  deleted a document
+app.delete("/notes/:noteId", async (req: Request, res: Response) => {
+    const noteId = req.params.noteId
+    // const note = await Note.deleteOne({ _id: noteId });
+    // const note = await Note.findOneAndDelete({ _id: noteId });
+    const note = await Note.findByIdAndDelete(noteId);
+
+    res.status(200).json({
+        success: true,
+        message: "data deleted success",
+        data: note
+    })
+});
 
 app.get("/", (req: Request, res: Response) => {
     res.send("server is running .....");
