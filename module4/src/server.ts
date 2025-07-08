@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 let server: Server;
 const PORT = process.env.PORT || 5000;
-const uri: string = process.env.MONGO_URI || "mongodb://localhost:27017/"
+const uri: string = process.env.MONGO_URI || "mongodb://localhost:27017/notes"
 
 
 async function main() {
