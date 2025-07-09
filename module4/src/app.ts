@@ -34,7 +34,8 @@ const notesSchema = new Schema(
         }
     },
     {
-        versionKey: false
+        versionKey: false,
+        timestamps: true
     }
 );
 
@@ -78,7 +79,7 @@ app.get("/notes/:noteId", async (req: Request, res: Response) => {
     // const note = await Note.find({ _id: req.params.noteId });
     // const note = await Note.findOne({ _id: req.params.noteId }); // any document by filter
     const note = await Note.findById(req.params.noteId); // query in mongodb objectId
-    console.log(note);
+
     res.status(200).json({
         success: true,
         message: "data get success",
@@ -94,7 +95,6 @@ app.patch("/notes/:noteId", async (req: Request, res: Response) => {
     // const note = await Note.findOneAndUpdate({ _id: noteId }, updateDoc, { new: true })
     // best way
     const note = await Note.findByIdAndUpdate(noteId, updateDoc, { new: true })
-    console.log(note);
     res.status(200).json({
         success: true,
         message: "data updated success",
