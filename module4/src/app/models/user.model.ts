@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 import { IAddress, IUser } from "../interfaces/user.interfaces";
 import validator from "validator";
 
-// embedting system --------- sub schemas
+// Embedded Documents system --------- sub schemas
 const addressSchema = new Schema<IAddress>({
     city: { type: String },
     street: { type: String },
