@@ -1,6 +1,8 @@
-import { model, Schema } from "mongoose";
-import { IAddress, IUser } from "../interfaces/user.interfaces";
+import { Model, model, Schema } from "mongoose";
+
 import validator from "validator";
+import bcrypt from "bcryptjs"
+import { IAddress, IUser, UserInstanceMethods } from "../interfaces/user.interfaces";
 
 // Embedded Documents system --------- sub schemas
 const addressSchema = new Schema<IAddress>({
@@ -10,7 +12,7 @@ const addressSchema = new Schema<IAddress>({
 }, {
     _id: false
 });
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, Model<IUser, {}>, UserInstanceMethods>({
     firstName: {
         type: String,
         required: [true, "first name is required, {VALUE}"],
@@ -69,5 +71,11 @@ const userSchema = new Schema<IUser>({
     }
 );
 
+userSchema.method("hashPassword", async function (plainPassword: string) {
+    const password = await bcrypt.hash(plainPassword, 10);
+    return password
+});
+
+
 // creating model 
-export const User = model<IUser>("User", userSchema);
+export const User = model<IUser, Model<IUser, {}, UserInstanceMethods>>("User", userSchema);
