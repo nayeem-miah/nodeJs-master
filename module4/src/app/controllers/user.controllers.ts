@@ -51,11 +51,40 @@ userRouter.post("/create-user", async (req: Request, res: Response) => {
 })
 // get all user
 userRouter.get("/", async (req: Request, res: Response) => {
-    const result = await User.find()
+    // filter
+    const userEmail = req.query.email ? req.query.email : "";
+    let users: object[] = [];
+    // if (userEmail) {
+    //  users = await User.find({ email: "gjh@gmail.com" })
+    // users = await User.find({ email: userEmail }) // http://localhost:5000/users?email=gjh@gmail.com
+    // } else {
+    // users = await User.find()
+    // }
+
+    // sorting
+    // users = await User.find().sort({ email: "asc" });
+    // users = await User.find().sort({ email: "ascending" });
+    // users = await User.find().sort({ email: 1});
+
+    // users = await User.find().sort({ email: "desc" });
+    // users = await User.find().sort({ email: "ascending" });
+    // users = await User.find().sort({ email: -1 });
+
+
+    // skipping
+    // users = await User.find().skip(5);
+
+    // limiting
+    // users = await User.find().limit(3)
+
+
+    users = await User.find()
+
+
     res.status(200).json({
         message: "find all user success",
         success: true,
-        result: result
+        result: users
     })
 })
 
