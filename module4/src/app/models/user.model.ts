@@ -3,6 +3,7 @@ import { Model, model, Schema } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs"
 import { IAddress, IUser, UserInstanceMethods, userStaticMethods } from "../interfaces/user.interfaces";
+import { Note } from "./notes.model";
 
 // Embedded Documents system --------- sub schemas
 const addressSchema = new Schema<IAddress>({
@@ -67,7 +68,9 @@ const userSchema = new Schema<IUser, userStaticMethods, UserInstanceMethods>({
 },
     {
         versionKey: false,
-        timestamps: true
+        timestamps: true,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
     }
 );
 
@@ -79,7 +82,45 @@ userSchema.method("hashPassword", async function (plainPassword: string) {
 userSchema.static("hashPassword", async function (plainPassword: string) {
     const password = await bcrypt.hash(plainPassword, 10);
     return password;
+});
+
+// pre hooks-----------middlewares--------------------
+
+//  document middlewares
+userSchema.pre("save", async function (next) {
+    this.password = await bcrypt.hash(this.password, 10);
+    next()
+});
+// query middlewares
+userSchema.pre("find", function (next) {
+    console.log("inside pre find hooks ");
+    next()
 })
+
+//post hooks -------------------------
+
+//  document middlewares
+userSchema.post('save', function (doc, next) {
+    // console.log('%s has been saved', doc._id);
+    // console.log(`${doc.email} has save `);
+    next()
+});
+
+// delete users all document -----> query middlewares
+userSchema.post("findOneAndDelete", async function (doc, next) {
+    if (doc) {
+        // console.log(doc);
+        await Note.deleteMany({ user: doc._id })
+    }
+    next()
+})
+
+
+// virtuals 
+userSchema.virtual("fullName").get(function () {
+    return `${this.firstName} ${this.lastName}`
+})
+
 
 // creating model 
 export const User = model<IUser, userStaticMethods>("User", userSchema);

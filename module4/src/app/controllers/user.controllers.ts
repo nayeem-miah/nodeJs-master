@@ -32,8 +32,8 @@ userRouter.post("/create-user", async (req: Request, res: Response) => {
         // await user.save();
 
         //  built in and customs statics methods
-        const password = await User.hashPassword(body.password);
-        body.password = password;
+        // const password = await User.hashPassword(body.password);
+        // body.password = password;
         const user = await User.create(body)
         res.status(201).json({
             message: "user created success",
@@ -84,7 +84,8 @@ userRouter.patch("/:userId", async (req: Request, res: Response) => {
 // deleted single user
 userRouter.delete("/:userId", async (req: Request, res: Response) => {
     const userId = req.params.userId;
-    const result = await User.findByIdAndDelete(userId)
+    // const result = await User.findByIdAndDelete(userId)
+    const result = await User.findOneAndDelete({ _id: userId })
     res.status(200).json({
         message: "user deleted success",
         success: true,
