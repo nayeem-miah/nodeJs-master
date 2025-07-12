@@ -81,5 +81,5 @@ npm start
 
 **MD Nayeem Miah**
 📧 [nayeem5113a@gmail.com](mailto:nayeem5113a@gmail.com)
-🌐 [Portfolio](ahttps://nayeem-miah.vercel.app)
+🌐 [Portfolio](https://nayeem-miah.vercel.app)
 
