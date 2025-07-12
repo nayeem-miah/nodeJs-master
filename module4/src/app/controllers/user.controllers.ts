@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { User } from "../models/user.model";
 import z from "zod";
-import bcrypt from "bcryptjs";
 
 export const userRouter = express.Router();
 
