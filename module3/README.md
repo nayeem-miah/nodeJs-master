@@ -24,8 +24,8 @@ src/
 
 ### 1. Clone and Install
 ```bash
-git clone https://github.com/nayeem-miah/nodeJs-master/tree/main/module3
-cd module3
+git clone https://github.com/nayeem-miah/nodeJs-master.git
+cd cd nodeJs-master/module3
 npm install
 ````
 
