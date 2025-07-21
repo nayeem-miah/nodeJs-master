@@ -22,9 +22,9 @@ todo-app/
 
 ```bash
 # Clone the repo
-git clone https://github.com/nayeem-miah/nodeJs-master/tree/main/module2
+git clone https://github.com/nayeem-miah/nodeJs-master.git
 
-cd todo-app-nodejs
+cd cd nodeJs-master/module2
 
 # Make sure todos.json exists inside db/ and is initialized like:
 # []
